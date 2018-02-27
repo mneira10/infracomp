@@ -49,7 +49,7 @@ public class Buffer {
             synchronized (lock){
                 lock.notifyAll();
                 this.notifyAll();
-            }
+     }
         }
     }
 }

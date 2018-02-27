@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
 public class Cliente implements Runnable {
 
@@ -22,7 +23,7 @@ public class Cliente implements Runnable {
     }
 
     private Mensaje nuevoMensaje(){
-        return new Mensaje(1);
+        return new Mensaje(new Random().nextInt(10));
     }
 
     @Override
@@ -34,9 +35,9 @@ public class Cliente implements Runnable {
                     try {
                         if(bf.agregarMensaje(temp)) {
                             mensajes.remove();
-                            System.out.println("Cliente: " + id + " durmiendo");
+                            System.out.println("Cliente: " + id + " entregó.");
                             temp.wait();
-                            System.out.println("Cliente: " + id + " despierto");
+                            System.out.println("Cliente: " + id + " le respondieron.");
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
