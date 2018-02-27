@@ -3,7 +3,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
-public class Cliente implements Runnable {
+public class Cliente extends  Thread {
 
     Queue<Mensaje> mensajes;
     int numMensajes;
@@ -40,20 +40,24 @@ public class Cliente implements Runnable {
                         if(bf.agregarMensaje(temp)) {
                             mensajes.remove();
                             //Entregó y esperará respuesta:
-                            System.out.println("Cliente: " + id + " entregó.");
+                            //System.out.println("Cliente: " + id + " entregó.");
                             temp.wait();
 
                             //Le respondieron:
-                            System.out.println("Cliente " + id + " le respondieron.");
+                            //System.out.println("Cliente " + id + " le respondieron.");
 
 
                             //Verificación de que la respuesta es exitosa:
                             if(temp.getRespuesta()==temp.getContenido()+1){
-                                System.out.println("Cliente: " + id + " le respondieron exitosamente.");
+                                //System.out.println("Cliente: " + id + " le respondieron exitosamente.");
                                 exitos++;
                             }
                         }
                         //Si no lo logra, cede procesador e intenta de nuevo:
+                        else{
+                            //System.out.println("Cliente id: " + id +" HIZO YIELD!! -------------------------------------------------------");
+                            this.yield();
+                        }
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -65,9 +69,13 @@ public class Cliente implements Runnable {
 
         }
         bf.notificar();
-        System.out.println("Cliente " + id + " acabo");
+        //System.out.println("Cliente " + id + " acabo");
         // Verificación de que todas las respuestas fueron exitosas
-        System.out.println("Cliente " + id + " acabo exitosamente: " + (numMensajes==exitos));
+//        if(numMensajes==exitos){
+//            System.out.println("Cliente " + id + " acabo exitosamente: " );
+//        }
+//        else System.out.println("Cliente " + id + " FALLOOOOOOOOOOOOOOOOOOOO--------------------------------------------------: " );
+
 
     }
 }

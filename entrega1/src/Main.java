@@ -1,7 +1,5 @@
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileReader;
-import java.io.InputStreamReader;
 
 public class Main {
 
@@ -30,7 +28,7 @@ public class Main {
             }
             long t = System.currentTimeMillis();
 
-            System.out.println("Empezó");
+            // System.out.println("Empezó");
             for(int i  = 0 ; i<nClientes;i++){
                 new Thread(new Cliente(peticiones[i],i,bf)).start();
             }
@@ -43,7 +41,7 @@ public class Main {
             }
 
 
-            System.out.println("Main Terminó después de " + (System.currentTimeMillis()-t) + "ms.");
+            System.out.println("Main Terminó después de " + (System.currentTimeMillis()-t) + "ms, nclientes: " + nClientes + ", exitos: " + bf.exitos);
 
 
 

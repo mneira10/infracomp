@@ -21,10 +21,10 @@ public class Servidor implements Runnable {
                 //Se duerme sobre el Buffer, en espera de que un Cliente lo despierte al agregar exitosamente un mensaje:
                 synchronized (bf){
                     try {
-                        System.out.println("Servidor: " + id+ " durmiendo");
+                        //System.out.println("Servidor: " + id+ " durmiendo");
 
                         bf.wait();
-                        System.out.println("Servidor: " + id+ " despierto");
+                        //System.out.println("Servidor: " + id+ " despierto");
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -33,14 +33,14 @@ public class Servidor implements Runnable {
             //Si sí, lo responde y notifica al Cliente correspondiente:
             else{
                 procesar(temp);
-                System.out.println("Servidor "+ id + " procesando mensaje...");
+                //System.out.println("Servidor "+ id + " procesando mensaje...");
                 synchronized (temp){
                     temp.notifyAll();
                 }
             }
         }
 
-        System.out.println("Servidor "+ id +" acabo");
+        //System.out.println("Servidor "+ id +" acabo");
     }
 
     /**

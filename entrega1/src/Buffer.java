@@ -1,6 +1,3 @@
-import javafx.beans.binding.ObjectExpression;
-
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -8,17 +5,15 @@ import java.util.Queue;
 public class Buffer {
 
     int nClientes;
-    int nServidores;
     int capacidad;
     Queue<Mensaje> mensajes;
     Object lock;
-//    boolean acabado;
+    int exitos;
 
     public Buffer( int capacidad,int nClientes, Object lock) {
+        exitos=0;
         this.nClientes = nClientes;
-//        this.nServidores = nServidores;
         this.capacidad = capacidad;
-//        acabado = false;
         mensajes = new LinkedList<>();
         this.lock = lock;
     }
@@ -32,7 +27,7 @@ public class Buffer {
         if(mensajes.size()==capacidad)
             return false;
         else{
-            System.out.println("Agregando mensaje...");
+            //System.out.println("Agregando mensaje...");
             mensajes.add(msg);
 
             //Despierta al Servidor que esté dormido. Ya hay mensajes para responder.
@@ -62,10 +57,11 @@ public class Buffer {
      */
     public synchronized void notificar(){
         nClientes--;
+        exitos++;
 //        System.out.println("Nclientes en buffer: " + nClientes);
         // Si ya no hay clientes pendientes, la ejecución del Main puede continuar:
         if(nClientes==0){
-            System.out.println("Notifica a todos");
+            //System.out.println("Notifica a todos");
             synchronized (lock){
                 lock.notifyAll();
                 this.notifyAll();
