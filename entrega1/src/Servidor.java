@@ -18,10 +18,11 @@ public class Servidor implements Runnable {
             //Si no logra obtener un mensaje para responder:
             if(temp==null){
 
-                //Se duerme:
+                //Se duerme sobre el Buffer, en espera de que un Cliente lo despierte al agregar exitosamente un mensaje:
                 synchronized (bf){
                     try {
                         System.out.println("Servidor: " + id+ " durmiendo");
+
                         bf.wait();
                         System.out.println("Servidor: " + id+ " despierto");
                     } catch (InterruptedException e) {

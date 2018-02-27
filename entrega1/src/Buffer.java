@@ -34,6 +34,8 @@ public class Buffer {
         else{
             System.out.println("Agregando mensaje...");
             mensajes.add(msg);
+
+            //Despierta al Servidor que esté dormido. Ya hay mensajes para responder.
             this.notify();
             return true;
         }
