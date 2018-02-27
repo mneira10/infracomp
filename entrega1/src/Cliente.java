@@ -68,7 +68,7 @@ public class Cliente extends  Thread {
             }
 
         }
-        bf.notificar();
+        if(numMensajes==exitos)bf.notificar();
         //System.out.println("Cliente " + id + " acabo");
         // Verificación de que todas las respuestas fueron exitosas
 //        if(numMensajes==exitos){
