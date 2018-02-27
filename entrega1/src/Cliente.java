@@ -9,11 +9,13 @@ public class Cliente implements Runnable {
     int numMensajes;
     int id;
     Buffer bf;
+    int exitos;
 
     public Cliente(int numMensajes, int id, Buffer bf) {
         this.numMensajes = numMensajes;
         this.id = id;
         this.bf = bf;
+        exitos =0;
 
         mensajes = new LinkedList<>();
         for(int i = 0 ; i< numMensajes ; i++){
@@ -33,12 +35,26 @@ public class Cliente implements Runnable {
 
                 synchronized (temp){
                     try {
+
+                        //Intenta agregar mensaje
                         if(bf.agregarMensaje(temp)) {
                             mensajes.remove();
+                            //Entregó y esperará respuesta:
                             System.out.println("Cliente: " + id + " entregó.");
                             temp.wait();
-                            System.out.println("Cliente: " + id + " le respondieron.");
+
+                            //Le respondieron:
+                            System.out.println("Cliente " + id + " le respondieron.");
+
+
+                            //Verificación de que la respuesta es exitosa:
+                            if(temp.getRespuesta()==temp.getContenido()+1){
+                                System.out.println("Cliente: " + id + " le respondieron exitosamente.");
+                                exitos++;
+                            }
                         }
+                        //Si no lo logra, cede procesador e intenta de nuevo:
+
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -50,6 +66,9 @@ public class Cliente implements Runnable {
         }
         bf.notificar();
         System.out.println("Cliente " + id + " acabo");
+        // Verificación de que todas las respuestas fueron exitosas
+        System.out.println("Cliente " + id + " acabo exitosamente: " + (numMensajes==exitos));
+
     }
 }
 
